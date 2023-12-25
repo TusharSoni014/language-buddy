@@ -1,24 +1,25 @@
 import LanguageItem from "../components/LanguageItem";
 
+const languages = [
+  {
+    name: "Japanese",
+    code: "ja",
+  },
+  {
+    name: "Hindi",
+    code: "hi",
+  },
+  {
+    name: "Spanish",
+    code: "es",
+  },
+  {
+    name: "French",
+    code: "fr",
+  },
+];
+
 export default function Home() {
-  const languages = [
-    {
-      name: "Japanese",
-      code: "ja",
-    },
-    {
-      name: "Hindi",
-      code: "hi",
-    },
-    {
-      name: "Spanish",
-      code: "es",
-    },
-    {
-      name: "French",
-      code: "fr",
-    },
-  ];
   return (
     <div className="flex flex-col w-full p-3 min-h-[calc(100dvh-60px)]">
       <h2 className="text-2xl text-center font-bold">
@@ -32,9 +33,16 @@ export default function Home() {
       </small>
       <div className="__language_container grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-3 my-5">
         {languages.map((langItem, index) => {
-          return <LanguageItem key={index} name={langItem.name} />;
+          return (
+            <LanguageItem
+              key={index}
+              code={langItem.code}
+              name={langItem.name}
+            />
+          );
         })}
       </div>
+      <p className="text-center w-full">Choose One Language from above</p>
     </div>
   );
 }
