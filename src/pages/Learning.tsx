@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { GiSpeaker } from "react-icons/gi";
+import { translateWords } from "../utils/functions";
 
 export default function Learning() {
   const navigate = useNavigate();
@@ -9,6 +10,15 @@ export default function Learning() {
   const nextQuestionHandler = (): void => {
     setQuestionCount((prev) => prev + 1);
   };
+
+  const loadLearningData = async () => {
+    const learningData = await translateWords({ lang: language });
+    console.log(learningData);
+  };
+  useEffect(() => {
+    loadLearningData();
+  }, []);
+
   return (
     <div className="__question min-h-[calc(100dvh-60px)] p-3">
       <div className="__question_container rounded bg-gray-800 p-3 flex flex-col">

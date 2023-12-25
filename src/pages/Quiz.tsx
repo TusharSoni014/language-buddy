@@ -12,14 +12,14 @@ export default function Quiz() {
 
   const nextQuestionHandler = (e: FormEvent): void => {
     e.preventDefault();
-    console.log(e.target);
     setResult((prev) => [...prev, ans]);
     setCount((prev) => prev + 1);
+    setAns("");
   };
   return (
     <div className="min-h-[calc(100dvh-60px)] w-full flex flex-col gap-2 p-5">
       <h1 className="text-2xl font-bold">Quiz</h1>
-      <form method="post" onSubmit={nextQuestionHandler}>
+      <form onSubmit={nextQuestionHandler}>
         <label className="block mb-4 text-sm font-bold text-gray-400">
           Choose an option:
         </label>
@@ -33,6 +33,7 @@ export default function Quiz() {
               className="mr-2 text-blue-500"
               required
               onChange={handleChange}
+              checked={ans === "option1"}
             />
             Option 1
           </label>
@@ -45,6 +46,7 @@ export default function Quiz() {
               className="mr-2 text-blue-500"
               required
               onChange={handleChange}
+              checked={ans === "option2"}
             />
             Option 2
           </label>
@@ -57,6 +59,7 @@ export default function Quiz() {
               className="mr-2 text-blue-500"
               required
               onChange={handleChange}
+              checked={ans === "option3"}
             />
             Option 3
           </label>
@@ -69,6 +72,7 @@ export default function Quiz() {
               className="mr-2 text-blue-500"
               required
               onChange={handleChange}
+              checked={ans === "option4"}
             />
             Option 4
           </label>
@@ -76,7 +80,8 @@ export default function Quiz() {
 
         <button
           type="submit"
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md disabled:bg-blue-300 transition"
+          disabled={ans === ""}
         >
           Submit
         </button>
