@@ -10,7 +10,7 @@ const Result = lazy(() => import("./pages/Result"));
 
 function App() {
   return (
-    <>
+    <div className="__app bg-black text-white">
       <Header />
       <Suspense fallback={<Loader />}>
         <Routes>
@@ -20,7 +20,7 @@ function App() {
           <Route path="/result" element={<Result />} />
         </Routes>
       </Suspense>
-    </>
+    </div>
   );
 }
 
