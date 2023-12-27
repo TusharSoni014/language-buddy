@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: wordsSliceType = {
   words: [],
+  translated: [],
   result: [],
   loading: false,
 };
@@ -13,16 +14,19 @@ const wordsSlice = createSlice({
     getWordsRequest: (state) => {
       state.loading = true;
     },
-    getWordsResponse: (state, action: PayloadAction<WordsObject[]>) => {
-      state.loading = false;
+    updateLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
+    updateWordsArray: (state, action: PayloadAction<string[]>) => {
       state.words = action.payload;
     },
+    updateTranslatedWordsArray: (state, action: PayloadAction<string[]>) => {
+      state.translated = action.payload;
+    },
     getWordsFailure: (state, action: PayloadAction<string>) => {
-      state.loading = false;
       state.error = action.payload;
     },
     saveResult: (state, action: PayloadAction<string[]>) => {
-      state.loading = false;
       state.result = action.payload;
     },
     clearSlice: (state) => {
@@ -38,8 +42,10 @@ export const {
   clearSlice,
   getWordsFailure,
   getWordsRequest,
-  getWordsResponse,
   saveResult,
+  updateLoading,
+  updateWordsArray,
+  updateTranslatedWordsArray,
 } = wordsSlice.actions;
 
 export default wordsSlice.reducer;

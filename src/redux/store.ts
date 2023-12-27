@@ -9,6 +9,4 @@ const store = configureStore({
 
 export default store;
 
-export interface RootState {
-  wordsSlice: ReturnType<typeof wordsSlice>;
-}
+export type RootState = ReturnType<typeof store.getState>;

@@ -9,7 +9,8 @@ type WordsObject = {
 };
 
 type wordsSliceType = {
-  words: Array<WordsObject>;
+  words: string[];
+  translated: string[];
   result: Array<string>;
   loading: boolean;
   error?: string;

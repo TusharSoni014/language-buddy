@@ -31,7 +31,7 @@ export default function Home() {
       <small className="text-center text-xs text-red-500">
         This project is made in Typescript + React + Tailwind
       </small>
-      <div className="__language_container grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-3 my-5">
+      <div className="__language_container grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-3 my-5">
         {languages.map((langItem, index) => {
           return (
             <LanguageItem
