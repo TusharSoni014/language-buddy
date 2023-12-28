@@ -2,7 +2,17 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: wordsSliceType = {
   words: [],
-  translated: [],
+  translated: {},
+  options: [
+    // ["1", "2", "3", "4"],
+    // ["1", "2", "3", "4"],
+    // ["1", "2", "3", "4"],
+    // ["1", "2", "3", "4"],
+    // ["1", "2", "3", "4"],
+    // ["1", "2", "3", "4"],
+    // ["1", "2", "3", "4"],
+    // ["1", "2", "3", "4"],
+  ],
   result: [],
   loading: false,
 };
@@ -20,14 +30,34 @@ const wordsSlice = createSlice({
     updateWordsArray: (state, action: PayloadAction<string[]>) => {
       state.words = action.payload;
     },
-    updateTranslatedWordsArray: (state, action: PayloadAction<string[]>) => {
+    generateOptions: (state) => {
+      const words = state.words;
+      const randomWords: string[] = [];
+      const wordExists = (word: string) => randomWords.includes(word);
+
+      while (randomWords.length < 3) {
+        const randomIndex: number = Math.floor(Math.random() * words.length);
+        const randomWord: string = words[randomIndex];
+        if (!wordExists(randomWord)) {
+          randomWords.push(randomWord);
+        }
+      }
+      console.log(randomWords);
+    },
+    updateResult: (
+      state,
+      action: PayloadAction<{ word: string; ans: string }>
+    ) => {
+      state.result.push(action.payload);
+    },
+    clearResult: (state) => {
+      state.result = [];
+    },
+    updateTranslatedWordsArray: (state, action: PayloadAction<Object>) => {
       state.translated = action.payload;
     },
     getWordsFailure: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
-    },
-    saveResult: (state, action: PayloadAction<string[]>) => {
-      state.result = action.payload;
     },
     clearSlice: (state) => {
       state.loading = false;
@@ -42,10 +72,12 @@ export const {
   clearSlice,
   getWordsFailure,
   getWordsRequest,
-  saveResult,
   updateLoading,
   updateWordsArray,
+  updateResult,
   updateTranslatedWordsArray,
+  clearResult,
+  generateOptions,
 } = wordsSlice.actions;
 
 export default wordsSlice.reducer;

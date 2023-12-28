@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { GiSpeaker } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
-import { updateWordsArray } from "../redux/slices/wordsSlice";
+import {
+  clearResult,
+  generateOptions,
+  updateTranslatedWordsArray,
+  updateWordsArray,
+} from "../redux/slices/wordsSlice";
 import { RootState } from "../redux/store";
 import { AiOutlineLoading } from "react-icons/ai";
 import { useTranslateWordsMutation } from "../redux/slices/apiSlice";
@@ -28,16 +33,16 @@ export default function Learning() {
   const loadLearningData = async () => {
     try {
       inputWords = generate(8);
-      console.log(inputWords);
       dispatch(updateWordsArray(inputWords));
-      // dispatch(api.util.resetApiState());
       const wordsArray: WordsArray = inputWords.map((word) => {
         return { Text: word };
       });
-      await translateWords({
+      const response = await translateWords({
         words: wordsArray,
         lang: language,
       });
+      dispatch(updateTranslatedWordsArray(response));
+      dispatch(generateOptions());
     } catch (error) {
       console.log(error);
     }
@@ -45,6 +50,7 @@ export default function Learning() {
 
   useEffect(() => {
     loadLearningData();
+    dispatch(clearResult());
     if (isSuccess) {
       dispatch(updateWordsArray(inputWords));
     }

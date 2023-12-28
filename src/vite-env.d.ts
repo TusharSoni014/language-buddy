@@ -4,16 +4,11 @@ type LangTypes = "ja" | "hi" | "es" | "fr";
 
 type WordsArray = Array<{ Text: string }>;
 
-type WordsObject = {
-  word: string;
-  meaning: string;
-  options: Array<string>;
-};
-
 type wordsSliceType = {
   words: string[];
-  translated: string[];
-  result: Array<string>;
+  translated: Object;
+  options: Array<string[]>;
+  result: { word: string; ans: string }[];
   loading: boolean;
   error?: string;
 };
