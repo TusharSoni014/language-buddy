@@ -2,6 +2,8 @@
 
 type LangTypes = "ja" | "hi" | "es" | "fr";
 
+type WordsArray = Array<{ Text: string }>;
+
 type WordsObject = {
   word: string;
   meaning: string;
@@ -18,4 +20,4 @@ type wordsSliceType = {
 
 type TranslatedWordsObject = {
   translations: { text: string }[];
-};
+}[];
