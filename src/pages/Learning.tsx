@@ -20,15 +20,17 @@ export default function Learning() {
     useTranslateWordsMutation({
       fixedCacheKey: "translateWordsMutation",
     });
-
+  let inputWords: string[];
   const nextQuestionHandler = (): void => {
     setQuestionCount((prev) => prev + 1);
   };
 
   const loadLearningData = async () => {
     try {
-      const inputWords: string[] = generate(8);
+      inputWords = generate(8);
+      console.log(inputWords);
       dispatch(updateWordsArray(inputWords));
+      // dispatch(api.util.resetApiState());
       const wordsArray: WordsArray = inputWords.map((word) => {
         return { Text: word };
       });
@@ -43,6 +45,9 @@ export default function Learning() {
 
   useEffect(() => {
     loadLearningData();
+    if (isSuccess) {
+      dispatch(updateWordsArray(inputWords));
+    }
   }, []);
 
   if (isLoading) return <Loader />;
@@ -78,6 +83,12 @@ export default function Learning() {
                 {questionCount + 1 === data?.length ? "Start Quiz" : "Next"}
               </button>
             </div>
+            <h1 className=" text-xl my-3 text-center font-bold">
+              {language === "hi" && "Hindi"}
+              {language === "ja" && "Japanese"}
+              {language === "es" && "Spanish"}
+              {language === "fr" && "French"}
+            </h1>
             <div className="__question_preview w-full text-xl flex justify-center items-center my-4 gap-2">
               {questionCount + 1} - {words[questionCount]} :{" "}
               {data![questionCount]}

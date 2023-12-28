@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import LanguageItem from "../components/LanguageItem";
+import { useDispatch } from "react-redux";
+import { updateWordsArray } from "../redux/slices/wordsSlice";
 
 const languages = [
   {
@@ -20,6 +23,10 @@ const languages = [
 ];
 
 export default function Home() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(updateWordsArray([]));
+  }, []);
   return (
     <div className="flex flex-col w-full p-3 min-h-[calc(100dvh-60px)]">
       <h2 className="text-2xl text-center font-bold">
