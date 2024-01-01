@@ -3,16 +3,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 const initialState: wordsSliceType = {
   words: [],
   translated: {},
-  options: [
-    // ["1", "2", "3", "4"],
-    // ["1", "2", "3", "4"],
-    // ["1", "2", "3", "4"],
-    // ["1", "2", "3", "4"],
-    // ["1", "2", "3", "4"],
-    // ["1", "2", "3", "4"],
-    // ["1", "2", "3", "4"],
-    // ["1", "2", "3", "4"],
-  ],
+  options: [],
   result: [],
   loading: false,
 };
@@ -30,20 +21,46 @@ const wordsSlice = createSlice({
     updateWordsArray: (state, action: PayloadAction<string[]>) => {
       state.words = action.payload;
     },
+    // generateOptions: (state) => {
+    //   const words = state.words;
+    //   words.map((word) => {
+    //     let randomWords: string[] = [];
+    //     const wordExists = (word: string) => randomWords.includes(word);
+    //     while (randomWords.length < 3) {
+    //       const randomIndex: number = Math.floor(Math.random() * words.length);
+    //       const randomWord: string = words[randomIndex];
+    //       if (!wordExists(randomWord)) {
+    //         randomWords.push(randomWord);
+    //       }
+    //     }
+    //     randomWords.push(word);
+    //     state.options.push(randomWords);
+    //   });
+    // },
     generateOptions: (state) => {
       const words = state.words;
-      const randomWords: string[] = [];
-      const wordExists = (word: string) => randomWords.includes(word);
-
-      while (randomWords.length < 3) {
-        const randomIndex: number = Math.floor(Math.random() * words.length);
-        const randomWord: string = words[randomIndex];
-        if (!wordExists(randomWord)) {
-          randomWords.push(randomWord);
+    
+      state.options = words.map((word) => {
+        let randomWords: string[] = [];
+        randomWords.push(word);
+        const wordExists = (word: string) => randomWords.includes(word);
+    
+        while (randomWords.length < 4) {
+          const randomIndex: number = Math.floor(Math.random() * words.length);
+          const randomWord: string = words[randomIndex];
+    
+          // Check if randomWord is not equal to the original word
+          if (randomWord !== word && !wordExists(randomWord)) {
+            randomWords.push(randomWord);
+          }
         }
-      }
-      console.log(randomWords);
+    
+        // Return the modified inner array for this word
+        return randomWords;
+      });
     },
+    
+
     updateResult: (
       state,
       action: PayloadAction<{ word: string; ans: string }>
