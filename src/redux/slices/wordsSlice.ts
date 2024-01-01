@@ -6,6 +6,8 @@ const initialState: wordsSliceType = {
   options: [],
   result: [],
   loading: false,
+  score: 0,
+  quizStatus: false,
 };
 
 const wordsSlice = createSlice({
@@ -21,50 +23,25 @@ const wordsSlice = createSlice({
     updateWordsArray: (state, action: PayloadAction<string[]>) => {
       state.words = action.payload;
     },
-    // generateOptions: (state) => {
-    //   const words = state.words;
-    //   words.map((word) => {
-    //     let randomWords: string[] = [];
-    //     const wordExists = (word: string) => randomWords.includes(word);
-    //     while (randomWords.length < 3) {
-    //       const randomIndex: number = Math.floor(Math.random() * words.length);
-    //       const randomWord: string = words[randomIndex];
-    //       if (!wordExists(randomWord)) {
-    //         randomWords.push(randomWord);
-    //       }
-    //     }
-    //     randomWords.push(word);
-    //     state.options.push(randomWords);
-    //   });
-    // },
     generateOptions: (state) => {
       const words = state.words;
-    
       state.options = words.map((word) => {
         let randomWords: string[] = [];
         randomWords.push(word);
         const wordExists = (word: string) => randomWords.includes(word);
-    
         while (randomWords.length < 4) {
           const randomIndex: number = Math.floor(Math.random() * words.length);
           const randomWord: string = words[randomIndex];
-    
-          // Check if randomWord is not equal to the original word
           if (randomWord !== word && !wordExists(randomWord)) {
             randomWords.push(randomWord);
           }
         }
-    
-        // Return the modified inner array for this word
+        randomWords = randomWords.slice().sort(() => Math.random() - 0.5);
         return randomWords;
       });
     },
-    
 
-    updateResult: (
-      state,
-      action: PayloadAction<{ word: string; ans: string }>
-    ) => {
+    updateResult: (state, action: PayloadAction<resultType>) => {
       state.result.push(action.payload);
     },
     clearResult: (state) => {
@@ -82,6 +59,16 @@ const wordsSlice = createSlice({
       state.result = [];
       state.words = [];
     },
+    calculateResult: (state) => {
+      const result = state.result;
+      let score: number = 0;
+      result.map((answer) => {
+        if (answer.ans === answer.correct) score++;
+      });
+      state.score = score;
+      if (score >= (state.words.length * 70) / 100) state.quizStatus = true;
+      else state.quizStatus = false;
+    },
   },
 });
 
@@ -95,6 +82,7 @@ export const {
   updateTranslatedWordsArray,
   clearResult,
   generateOptions,
+  calculateResult,
 } = wordsSlice.actions;
 
 export default wordsSlice.reducer;
