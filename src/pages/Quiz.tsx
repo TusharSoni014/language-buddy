@@ -1,7 +1,11 @@
-import { FormEvent, useState, ChangeEvent } from "react";
+import { FormEvent, useState, ChangeEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { calculateResult, updateResult } from "../redux/slices/wordsSlice";
+import {
+  calculateResult,
+  clearResult,
+  updateResult,
+} from "../redux/slices/wordsSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function Quiz() {
@@ -11,7 +15,6 @@ export default function Quiz() {
   const translatedWords: any = useSelector(
     (state: RootState) => state.wordsSlice.translated
   );
-  console.log(translatedWords);
   const options = useSelector((state: RootState) => state.wordsSlice.options);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,6 +22,10 @@ export default function Quiz() {
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setAns(e.target.value);
   };
+
+  useEffect(() => {
+    dispatch(clearResult());
+  }, []);
 
   const nextQuestionHandler = (e: FormEvent): void => {
     e.preventDefault();
@@ -41,7 +48,12 @@ export default function Quiz() {
     return (
       <div className="min-h-[calc(100dvh-60px)] flex justify-center items-center flex-col gap-3">
         <p className="text-gray-600">Something went wrong</p>
-        <button className="bg-blue-500 px-4 py-2 rounded w-fit" onClick={() => navigate("/")}>Reload</button>
+        <button
+          className="bg-blue-500 px-4 py-2 rounded w-fit"
+          onClick={() => navigate("/")}
+        >
+          Reload
+        </button>
       </div>
     );
   return (

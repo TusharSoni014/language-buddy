@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import Resultelement from "../components/ResultElement";
+import { useNavigate } from "react-router-dom";
 
 const headingData: resultType = {
   ans: "Your Answer",
@@ -9,6 +10,7 @@ const headingData: resultType = {
 };
 
 export default function Result() {
+  const navigate = useNavigate();
   const score = useSelector((state: RootState) => state.wordsSlice.score);
   const result = useSelector((state: RootState) => state.wordsSlice.result);
   const status = useSelector((state: RootState) => state.wordsSlice.quizStatus);
@@ -30,6 +32,14 @@ export default function Result() {
         {result.map((item, index) => {
           return <Resultelement heading={false} key={index} data={item} />;
         })}
+      </div>
+      <div className="__btn_container">
+        <button
+          onClick={() => navigate("/")}
+          className="bg-blue-500 px-4 py-2 rounded w-fit my-2"
+        >
+          Learn Again
+        </button>
       </div>
     </div>
   );
