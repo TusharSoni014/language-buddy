@@ -8,6 +8,7 @@ const store = configureStore({
     [api.reducerPath]: api.reducer,
   },
   middleware: (defaultMiddleware) => defaultMiddleware().concat(api.middleware),
+  devTools: !import.meta.env.PROD,
 });
 
 export default store;

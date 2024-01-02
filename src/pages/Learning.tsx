@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { GiSpeaker } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearResult,
@@ -57,7 +56,12 @@ export default function Learning() {
   }, []);
 
   if (isLoading) return <Loader />;
-  if (isError) return <>Error Occured</>;
+  if (isError)
+    return (
+      <div className="min-h-[calc(100dvh-60px)] flex justify-center items-center text-gray-500">
+        Error Occured
+      </div>
+    );
   if (isSuccess)
     return (
       <div className="__question min-h-[calc(100dvh-60px)] p-3">
@@ -98,7 +102,6 @@ export default function Learning() {
             <div className="__question_preview w-full text-xl flex justify-center items-center my-4 gap-2">
               {questionCount + 1} - {words[questionCount]} :{" "}
               {data![questionCount]}
-              <GiSpeaker className="cursor-pointer text-xl text-blue-500" />
             </div>
           </div>
         )}

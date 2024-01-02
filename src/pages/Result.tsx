@@ -14,6 +14,14 @@ export default function Result() {
   const score = useSelector((state: RootState) => state.wordsSlice.score);
   const result = useSelector((state: RootState) => state.wordsSlice.result);
   const status = useSelector((state: RootState) => state.wordsSlice.quizStatus);
+  if (result.length === 0)
+    return (
+      <>
+        <div className=" min-h-[calc(100dvh-60px)] flex justify-center items-center text-gray-500">
+          Re-Attempt the Quiz!
+        </div>
+      </>
+    );
   return (
     <div className="__result_page min-h-[calc(100dvh-60px)] p-3 flex flex-col justify-center items-center">
       <h1 className=" text-3xl text-center">Result</h1>
